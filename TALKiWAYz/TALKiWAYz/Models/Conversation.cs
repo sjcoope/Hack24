@@ -9,6 +9,6 @@ namespace TALKiWAYz.Models
     public class Conversation
     {
         public string Name { get; set; }
-        public List<Statement> Statements
+        public List<Statement> Statements { get; set; }
     }
 }
