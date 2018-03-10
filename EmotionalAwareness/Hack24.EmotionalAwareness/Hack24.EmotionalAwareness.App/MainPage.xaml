@@ -5,6 +5,7 @@
     xmlns:local="using:Hack24.EmotionalAwareness.App"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:xaml="using:Microsoft.Graphics.Canvas.UI.Xaml"
     mc:Ignorable="d" FontSize="72">
 
     <Grid Background="{ThemeResource ApplicationPageBackgroundThemeBrush}" Margin="0,0,9.6,0" RenderTransformOrigin="1.847,1.912">
@@ -13,6 +14,9 @@
             <Image HorizontalAlignment="Left" RenderTransformOrigin="-2.64,0.82" Margin="0,0,0,0" x:Name="PART_Analysis"/>
         </Canvas>
         <Button Content="Capture" Margin="607,33,37,386" Width="200" Height="40" HorizontalAlignment="Center" Click="Capture_Click" RenderTransformOrigin="-1.999,0.769"/>
-        <TextBlock x:Name="txtOutput" HorizontalAlignment="Left" Margin="10,374,0,0" Text="TextBlock" TextWrapping="Wrap" VerticalAlignment="Top" Width="834" FontSize="11" Height="95"/>
+        <Canvas x:Name="FACE_Canvas"  Background="Blue" Margin="0,0,0,0" Height="300" VerticalAlignment="Bottom">
+            <TextBlock  MaxLines="20" Foreground="AntiqueWhite" Name="txtOutput" HorizontalAlignment="Left" Margin="0,0,0,0" Text="TextBlock"  FontFamily="Segoe UI Light" TextWrapping="Wrap" VerticalAlignment="Top" Width="834" FontSize="11"/>
+         </Canvas>
     </Grid>
 </Page>
+

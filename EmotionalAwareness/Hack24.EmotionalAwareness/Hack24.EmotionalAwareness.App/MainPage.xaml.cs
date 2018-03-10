@@ -2,9 +2,11 @@
 using Microsoft.ProjectOxford.Face.Contract;
 using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.IO;
 using System.Runtime.InteropServices.WindowsRuntime;
 using System.Threading.Tasks;
+using Windows.Foundation;
 using Windows.Graphics.Imaging;
 using Windows.Media.Capture;
 using Windows.Media.MediaProperties;
@@ -13,6 +15,9 @@ using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Media.Imaging;
 using Windows.UI.Popups;
+using Windows.UI.Xaml.Media;
+using Windows.UI.Xaml.Shapes;
+using Microsoft.Graphics.Canvas.Text;
 
 // The Blank Page item template is documented at https://go.microsoft.com/fwlink/?LinkId=402352&clcid=0x409
 
@@ -23,11 +28,12 @@ namespace Hack24.EmotionalAwareness.App
     /// </summary>
     public sealed partial class MainPage : Page
     {
-        private readonly IFaceServiceClient faceServiceClient =
-            new FaceServiceClient("a600bbefbfec4e85a8044cccb1be7b96", "https://westeurope.api.cognitive.microsoft.com/face/v1.0");
+        private readonly IFaceServiceClient faceServiceClient;
 
         public MainPage()
         {
+            var faceServiceAPIKey = File.ReadAllText("./Assets/FaceServiceAPI.key");
+            faceServiceClient = new FaceServiceClient(faceServiceAPIKey, "https://westeurope.api.cognitive.microsoft.com/face/v1.0");
             this.InitializeComponent();
             ShowPreview();
         }
@@ -40,8 +46,11 @@ namespace Hack24.EmotionalAwareness.App
             await capture.StartPreviewAsync();
         }
 
+
         private async void Capture_Click(object sender, RoutedEventArgs e)
         {
+            PART_Canvas.Visibility = Visibility.Collapsed;
+
             var stream = new InMemoryRandomAccessStream();
             await PART_Capture.Source.CapturePhotoToStreamAsync(ImageEncodingProperties.CreatePng(), stream);
 
@@ -56,9 +65,10 @@ namespace Hack24.EmotionalAwareness.App
 
             var width = image.PixelWidth;
             var height = image.PixelHeight;
-            var scaleX = PART_Canvas.Width / image.PixelWidth;
-            var scaleY = PART_Canvas.Height / image.PixelHeight;
+            var scaleX = 0; //PART_Canvas.ActualWidth / image.PixelWidth;
+            var scaleY = 0; //PART_Canvas.ActualHeight / image.PixelHeight;
             stream.Seek(0);
+
             image = await decoder.GetSoftwareBitmapAsync(
                 BitmapPixelFormat.Bgra8,
                 BitmapAlphaMode.Premultiplied,
@@ -69,21 +79,50 @@ namespace Hack24.EmotionalAwareness.App
             await source.SetBitmapAsync(image);
 
             PART_Canvas.Children.Clear();
-            PART_Canvas.Children.Add(new Image { Source = source });
-            PART_Canvas.Visibility = Visibility.Visible;
-
+            var tmpImage = new Image {Source = source};
+            PART_Canvas.Children.Add(tmpImage);
             var faces = await UploadAndDetectFaces(stream.AsStream());
             ProcessFaces(faces);
-        }
 
+            PART_Canvas.Visibility = Visibility.Visible;
+
+        }
         private void OutputFaceInfo(Face[] faces)
         {
+            if (faces.Length == 0)
+                return;
 
+            var face = faces[0]; // just take first face we find
+            txtOutput.Text = "Faces Detected: ";
+            txtOutput.Text = txtOutput.Text+ $"id {face.FaceId}\nAge {face.FaceAttributes.Age}\nHappiness {face.FaceAttributes.Emotion.Happiness}\nSadness {face.FaceAttributes.Emotion.Sadness}\n";
+            txtOutput.Text = txtOutput.Text + $"Anger {face.FaceAttributes.Emotion.Anger}\nContempt {face.FaceAttributes.Emotion.Contempt}\n";
+            txtOutput.Text = txtOutput.Text + $"Disgust {face.FaceAttributes.Emotion.Disgust}\nFear {face.FaceAttributes.Emotion.Fear}\n";
+            txtOutput.Text = txtOutput.Text +
+                             $"Surprise {face.FaceAttributes.Emotion.Surprise}\nNeutral {face.FaceAttributes.Emotion.Neutral}\n\n";
         }
 
         private void HighlightFaces(Face[] faces)
         {
 
+
+            var left = faces[0].FaceRectangle.Left;
+            var top =  faces[0].FaceRectangle.Top;
+            var width = faces[0].FaceRectangle.Width;
+            var height = faces[0].FaceRectangle.Height;
+            var rectangle1 = new Rectangle();
+            rectangle1.Width = width;
+            rectangle1.Height = height;
+            rectangle1.Stroke = new SolidColorBrush(Windows.UI.Colors.Blue);
+            rectangle1.StrokeThickness = 2;
+            rectangle1.RadiusX = 25;
+            rectangle1.RadiusY = 5;
+            // When you create a XAML element in code, you have to add
+            // it to the XAML visual tree. This example assumes you have
+            // a panel named 'layoutRoot' in your XAML file, like this:
+            // <Grid x:Name="layoutRoot>
+            Canvas.SetTop(rectangle1, top);
+            Canvas.SetLeft(rectangle1, left);
+            PART_Canvas.Children.Add(rectangle1);
         }
 
         private void ProcessFaces(Face[] faces)
