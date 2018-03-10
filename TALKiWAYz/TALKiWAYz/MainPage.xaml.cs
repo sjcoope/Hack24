@@ -26,5 +26,10 @@ namespace TALKiWAYz
         {
             this.InitializeComponent();
         }
+
+        private void HelloWorldButton_Click(object sender, RoutedEventArgs e)
+        {
+
+        }
     }
 }

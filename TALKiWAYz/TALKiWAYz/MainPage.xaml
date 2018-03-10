@@ -8,6 +8,6 @@
     mc:Ignorable="d">
 
     <Grid Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
-
+        <Button HorizontalAlignment="Center" Click="HelloWorldButton_Click">Hello World</Button>
     </Grid>
 </Page>
