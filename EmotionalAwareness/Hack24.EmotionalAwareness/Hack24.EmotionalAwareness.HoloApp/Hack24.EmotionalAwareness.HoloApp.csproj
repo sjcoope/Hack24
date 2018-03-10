@@ -4,7 +4,7 @@
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">x86</Platform>
-    <ProjectGuid>{ee19fe42-81b9-4df3-97ea-9b4ba3c6a07f}</ProjectGuid>
+    <ProjectGuid>{EE19FE42-81B9-4DF3-97EA-9B4BA3C6A07F}</ProjectGuid>
     <OutputType>AppContainerExe</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
     <RootNamespace>Hack24.EmotionalAwareness.HoloApp</RootNamespace>
@@ -16,9 +16,7 @@
     <MinimumVisualStudioVersion>15</MinimumVisualStudioVersion>
     <FileAlignment>512</FileAlignment>
     <ProjectTypeGuids>{A5A43C5B-DE2A-4C0C-9213-0A381AF9435A};{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}</ProjectTypeGuids>
-    
     <PackageCertificateKeyFile>Hack24.EmotionalAwareness.HoloApp_TemporaryKey.pfx</PackageCertificateKeyFile>
-    
     <EnableDotNetNativeCompatibleProfile>true</EnableDotNetNativeCompatibleProfile>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Debug|x86'">
@@ -61,11 +59,9 @@
     <ErrorReport>prompt</ErrorReport>
     <UseDotNetNativeToolchain>true</UseDotNetNativeToolchain>
   </PropertyGroup>
-
   <PropertyGroup>
     <RestoreProjectStyle>PackageReference</RestoreProjectStyle>
   </PropertyGroup>
-
   <ItemGroup>
     <Compile Include="Hack24.EmotionalAwareness.HoloAppMain.cs" />
     <Compile Include="AppView.cs" />
@@ -86,9 +82,7 @@
     <AppxManifest Include="Package.appxmanifest">
       <SubType>Designer</SubType>
     </AppxManifest>
-    
     <None Include="Hack24.EmotionalAwareness.HoloApp_TemporaryKey.pfx" />
-    
   </ItemGroup>
   <ItemGroup>
     <Content Include="Properties\Default.rd.xml" />
@@ -114,10 +108,9 @@
   </PropertyGroup>
   <Import Project="$(MSBuildExtensionsPath)\Microsoft\WindowsXaml\v$(VisualStudioVersion)\Microsoft.Windows.UI.Xaml.CSharp.targets" />
   <Import Project="ms.fxcompile.targets" />
-
   <ItemGroup>
     <PackageReference Include="Microsoft.NETCore.UniversalWindowsPlatform">
-      <Version>5.2.2</Version>
+      <Version>6.0.8</Version>
     </PackageReference>
     <PackageReference Include="SharpDX">
       <Version>3.0.2</Version>
@@ -129,7 +122,6 @@
       <Version>3.0.2</Version>
     </PackageReference>
   </ItemGroup>
-
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.
   <Target Name="BeforeBuild">

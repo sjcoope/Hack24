@@ -8,6 +8,11 @@
     mc:Ignorable="d" FontSize="72">
 
     <Grid Background="{ThemeResource ApplicationPageBackgroundThemeBrush}" Margin="0,0,9.6,0" RenderTransformOrigin="1.847,1.912">
-        <TextBlock HorizontalAlignment="Left" Margin="228,184,0,0" Text="Hello World!" TextWrapping="Wrap" VerticalAlignment="Top"/>
+        <CaptureElement x:Name="PART_Capture" Margin="0,0,0,0"/>
+        <Canvas x:Name="PART_Canvas" Visibility="Collapsed" Margin="0,0,0,0">
+            <Image HorizontalAlignment="Left" RenderTransformOrigin="-2.64,0.82" Margin="0,0,0,0" x:Name="PART_Analysis"/>
+        </Canvas>
+        <Button Content="Capture" Margin="607,33,37,386" Width="200" Height="40" HorizontalAlignment="Center" Click="Capture_Click" RenderTransformOrigin="-1.999,0.769"/>
+        <TextBlock x:Name="txtOutput" HorizontalAlignment="Left" Margin="10,374,0,0" Text="TextBlock" TextWrapping="Wrap" VerticalAlignment="Top" Width="834" FontSize="11" Height="95"/>
     </Grid>
 </Page>
