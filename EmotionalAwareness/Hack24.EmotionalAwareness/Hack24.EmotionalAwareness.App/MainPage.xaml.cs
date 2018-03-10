@@ -27,8 +27,8 @@ namespace Hack24.EmotionalAwareness.App
 
         public MainPage()
         {
-            var FaceServiceAPIKey = File.ReadAllText("./Assets/FaceServiceAPI.key");
-            faceServiceClient = new FaceServiceClient(FaceServiceAPIKey, "https://westeurope.api.cognitive.microsoft.com/face/v1.0");
+            var faceServiceAPIKey = File.ReadAllText("./Assets/FaceServiceAPI.key");
+            faceServiceClient = new FaceServiceClient(faceServiceAPIKey, "https://westeurope.api.cognitive.microsoft.com/face/v1.0");
             this.InitializeComponent();
             ShowPreview();
         }
