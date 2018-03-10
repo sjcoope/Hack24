@@ -8,6 +8,7 @@
     mc:Ignorable="d">
 
     <Grid Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
+        <TextBox Name="SpeechInput"></TextBox>
         <Button HorizontalAlignment="Center" Click="HelloWorldButton_Click">Hello World</Button>
     </Grid>
 </Page>

@@ -1,6 +1,9 @@
 ﻿using System;
+using Windows.Media.Playback;
+using Windows.Media.Core;
 using System.IO;
 using System.Collections.Generic;
+using System.Windows;
 using System.Text;
 using System.Threading;
 using System.Net;
@@ -8,6 +11,7 @@ using System.Net.Http;
 using System.Threading.Tasks;
 using System.Runtime.InteropServices;
 using System.Xml.Linq;
+using System.Diagnostics;
 
 using Windows.Storage;
 
@@ -52,9 +56,9 @@ namespace UWPTextToSpeech
             //swap the new token with old one
             //Note: the swap is thread unsafe
             this.accessToken = newAccessToken;
-            /*Console.WriteLine(string.Format("Renewed token for user: {0} is: {1}",
+            Debug.WriteLine(string.Format("Renewed token for user: {0} is: {1}",
                               this.apiKey,
-                              this.accessToken));*/
+                              this.accessToken));
         }
 
         private void OnTokenExpiredCallback(object stateInfo)
@@ -65,7 +69,7 @@ namespace UWPTextToSpeech
             }
             catch (Exception ex)
             {
-                //Console.WriteLine(string.Format("Failed renewing access token. Details: {0}", ex.Message));
+                Debug.WriteLine(string.Format("Failed renewing access token. Details: {0}", ex.Message));
             }
             finally
             {
@@ -75,7 +79,7 @@ namespace UWPTextToSpeech
                 }
                 catch (Exception ex)
                 {
-                    //Console.WriteLine(string.Format("Failed to reschedule the timer to renew access token. Details: {0}", ex.Message));
+                    Debug.WriteLine(string.Format("Failed to reschedule the timer to renew access token. Details: {0}", ex.Message));
                 }
             }
         }
@@ -422,20 +426,35 @@ namespace UWPTextToSpeech
         /// <param name="args">The <see cref="GenericEventArgs{Stream}"/> instance containing the event data.</param>
         public async static void StoreAudio(object sender, GenericEventArgs<Stream> args)
         {
-            //Console.WriteLine(args.EventData);
+            Debug.WriteLine(args.EventData);
             var wavDir = ApplicationData.Current.TemporaryFolder;
-            var file = await wavDir.CreateFileAsync($"{ Guid.NewGuid() }.wav",
+            var synthFileName = $"{ Guid.NewGuid() }.wav";
+            var file = await wavDir.CreateFileAsync(synthFileName,
                     CreationCollisionOption.ReplaceExisting);
 
             var stream = await file.OpenAsync(FileAccessMode.ReadWrite);
 
             using (var writeStream = stream.GetOutputStreamAt(0))
             {
-                var outputStream = writeStream.AsStreamForWrite();
-
-                args.EventData.CopyTo(outputStream);
-                outputStream.Flush();
+                using (var outputStream = writeStream.AsStreamForWrite())
+                {
+                    args.EventData.CopyTo(outputStream);
+                    outputStream.Flush();
+                }
             }
+
+            stream.Dispose();
+
+            // For SoundPlayer to be able to play the wav file, it has to be encoded in PCM.
+            // Use output audio format AudioOutputFormat.Riff16Khz16BitMonoPcm to do that.
+
+            var voiceOutput = new MediaPlayer();
+            StorageFile audioFile = await wavDir.GetFileAsync(synthFileName);
+            var audioStream = await audioFile.OpenAsync(FileAccessMode.Read);
+            voiceOutput.Source = MediaSource.CreateFromStream(audioStream, "audio/wav");
+            voiceOutput.Play();
+
+            args.EventData.Dispose();
         }
 
         /// <summary>
@@ -445,12 +464,12 @@ namespace UWPTextToSpeech
         /// <param name="e">The <see cref="GenericEventArgs{Exception}"/> instance containing the event data.</param>
         public static void ErrorHandler(object sender, GenericEventArgs<Exception> e)
         {
-            //Console.WriteLine("Unable to complete the TTS request: [{0}]", e.ToString());
+            Debug.WriteLine("Unable to complete the TTS request: [{0}]", e.ToString());
         }
 
         static void Main(string[] args)
         {
-            //Console.WriteLine("Starting Authtentication");
+            Debug.WriteLine("Starting Authtentication");
             string accessToken;
 
             // Note: The way to get api key:
@@ -461,17 +480,17 @@ namespace UWPTextToSpeech
             try
             {
                 accessToken = auth.GetAccessToken();
-                //Console.WriteLine("Token: {0}\n", accessToken);
+                Debug.WriteLine("Token: {0}\n", accessToken);
             }
             catch (Exception ex)
             {
-                //Console.WriteLine("Failed authentication.");
-                //Console.WriteLine(ex.ToString());
-                //Console.WriteLine(ex.Message);
+                Debug.WriteLine("Failed authentication.");
+                Debug.WriteLine(ex.ToString());
+                Debug.WriteLine(ex.Message);
                 return;
             }
 
-            //Console.WriteLine("Starting TTSSample request code execution.");
+            Debug.WriteLine("Starting TTSSample request code execution.");
 
             string requestUri = "https://speech.platform.bing.com/synthesize";
 

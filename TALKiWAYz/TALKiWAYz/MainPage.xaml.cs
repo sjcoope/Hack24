@@ -61,7 +61,7 @@ namespace TALKiWAYz
             {
                 RequestUri = new Uri(requestUri),
                 // Text to be spoken.
-                Text = "Hello World. Would you like to play a game?",
+                Text = SpeechInput.Text,
                 VoiceType = Gender.Female,
                 // Refer to the documentation for complete list of supported locales.
                 Locale = "en-US",
