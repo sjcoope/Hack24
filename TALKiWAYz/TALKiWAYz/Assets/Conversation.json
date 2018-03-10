@@ -1,0 +1,51 @@
+﻿{
+  "Conversations": [
+    {
+      "Name": "Questions",
+      "Statements": [
+        {
+          "SpeechText": "Hello",
+          "Responses": [
+            {
+              "Text": "Hello",
+              "Correct": true
+            },
+            {
+              "Text": "I am happy",
+              "Correct": false
+            },
+            {
+              "Text": "Goodbye",
+              "Correct":  false
+            },
+            {
+              "Text": "When can I leave?",
+              "Correct": false
+            }
+          ]
+        },
+        {
+          "SpeechText": "How are you today?",
+          "Responses": [
+            {
+              "Text": "I am doing well",
+              "Correct": true
+            },
+            {
+              "Text": "No",
+              "Correct": false
+            },
+            {
+              "Text": "I like pizza",
+              "Correct": false
+            },
+            {
+              "Text": "I have been shopping",
+              "Correct":  false
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}

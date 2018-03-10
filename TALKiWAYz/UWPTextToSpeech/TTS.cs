@@ -253,7 +253,7 @@ namespace UWPTextToSpeech
             };
 
             var httpTask = client.SendAsync(request, HttpCompletionOption.ResponseHeadersRead, cancellationToken);
-           // Console.WriteLine("Response status code: [{0}]", httpTask.Result.StatusCode);
+            Debug.WriteLine("Response status code: [{0}]", httpTask.Result.StatusCode);
 
             var saveTask = httpTask.ContinueWith(
                 async (responseMessage, token) =>

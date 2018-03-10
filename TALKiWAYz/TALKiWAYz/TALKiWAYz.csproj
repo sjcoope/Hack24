@@ -98,12 +98,17 @@
     <Compile Include="MainPage.xaml.cs">
       <DependentUpon>MainPage.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Models\Conversation.cs" />
+    <Compile Include="Models\ConversationDetails.cs" />
+    <Compile Include="Models\Response.cs" />
+    <Compile Include="Models\Statement.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
     <AppxManifest Include="Package.appxmanifest">
       <SubType>Designer</SubType>
     </AppxManifest>
+    <None Include="Assets\Conversation.json" />
     <None Include="TALKiWAYz_TemporaryKey.pfx" />
   </ItemGroup>
   <ItemGroup>
@@ -132,6 +137,9 @@
   <ItemGroup>
     <PackageReference Include="Microsoft.NETCore.UniversalWindowsPlatform">
       <Version>6.0.8</Version>
+    </PackageReference>
+    <PackageReference Include="Newtonsoft.Json">
+      <Version>11.0.1</Version>
     </PackageReference>
   </ItemGroup>
   <ItemGroup>
