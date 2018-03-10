@@ -95,7 +95,6 @@
     <Compile Include="App.xaml.cs">
       <DependentUpon>App.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Config\Config.cs" />
     <Compile Include="DrawingContext.cs" />
     <Compile Include="DrawingVisual.cs" />
     <Compile Include="MainPage.xaml.cs">
@@ -110,7 +109,7 @@
     <None Include="Hack24.EmotionalAwareness.App_TemporaryKey.pfx" />
   </ItemGroup>
   <ItemGroup>
-    <Content Include="Assets\FaceServiceAPIKey.txt">
+    <Content Include="Assets\FaceServiceAPI.key">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
     <Content Include="Properties\Default.rd.xml" />

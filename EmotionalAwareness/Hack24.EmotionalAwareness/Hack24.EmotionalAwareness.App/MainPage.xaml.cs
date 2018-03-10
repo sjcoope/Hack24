@@ -13,7 +13,6 @@ using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Media.Imaging;
 using Windows.UI.Popups;
-using Hack24.EmotionalAwareness.App.Config;
 
 // The Blank Page item template is documented at https://go.microsoft.com/fwlink/?LinkId=402352&clcid=0x409
 
@@ -28,8 +27,8 @@ namespace Hack24.EmotionalAwareness.App
 
         public MainPage()
         {
-            var text = File.ReadAllText("./Assets/FaceServiceAPIKey.txt");
-            faceServiceClient = new FaceServiceClient(text, "https://westeurope.api.cognitive.microsoft.com/face/v1.0");
+            var FaceServiceAPIKey = File.ReadAllText("./Assets/FaceServiceAPI.key");
+            faceServiceClient = new FaceServiceClient(FaceServiceAPIKey, "https://westeurope.api.cognitive.microsoft.com/face/v1.0");
             this.InitializeComponent();
             ShowPreview();
         }
