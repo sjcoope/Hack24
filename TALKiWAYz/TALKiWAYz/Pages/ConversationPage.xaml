@@ -14,8 +14,9 @@
         <Canvas Name="ResponseCanvas">
 
         </Canvas>
+
         <Canvas>
-            <Button Name="NextQuestion" HorizontalAlignment="Center" VerticalAlignment="Center" Click="NextQuestion_OnClick"></Button>
+            <TextBlock Name="ScoreText" Canvas.Top="150" Canvas.Left="800" FontFamily="Arial" FontSize="20"></TextBlock>
         </Canvas>
     </Grid>
 </Page>

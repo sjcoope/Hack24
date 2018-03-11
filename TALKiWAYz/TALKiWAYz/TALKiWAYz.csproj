@@ -153,6 +153,10 @@
     </PackageReference>
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\UWPSpeechToText\UWPSpeechToText.csproj">
+      <Project>{bbad2148-6670-4639-88da-990679693b14}</Project>
+      <Name>UWPSpeechToText</Name>
+    </ProjectReference>
     <ProjectReference Include="..\UWPTextToSpeech\UWPTextToSpeech.csproj">
       <Project>{65e3ec22-6aef-4bc6-8015-c8fb1f849584}</Project>
       <Name>UWPTextToSpeech</Name>
