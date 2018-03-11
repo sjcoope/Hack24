@@ -61,11 +61,11 @@ namespace UWPTextToSpeech
                               this.accessToken));
         }
 
-        private void OnTokenExpiredCallback(object stateInfo)
+        private async void OnTokenExpiredCallback(object stateInfo)
         {
             try
             {
-                RenewAccessToken();
+                await RenewAccessToken();
             }
             catch (Exception ex)
             {
@@ -465,54 +465,6 @@ namespace UWPTextToSpeech
         public static void ErrorHandler(object sender, GenericEventArgs<Exception> e)
         {
             Debug.WriteLine("Unable to complete the TTS request: [{0}]", e.ToString());
-        }
-
-        static void Main(string[] args)
-        {
-            Debug.WriteLine("Starting Authtentication");
-            string accessToken;
-
-            // Note: The way to get api key:
-            // Free: https://www.microsoft.com/cognitive-services/en-us/subscriptions?productId=/products/Bing.Speech.Preview
-            // Paid: https://portal.azure.com/#create/Microsoft.CognitiveServices/apitype/Bing.Speech/pricingtier/S0
-            Authentication auth = new Authentication("Your api key goes here");
-
-            try
-            {
-                accessToken = auth.GetAccessToken();
-                Debug.WriteLine("Token: {0}\n", accessToken);
-            }
-            catch (Exception ex)
-            {
-                Debug.WriteLine("Failed authentication.");
-                Debug.WriteLine(ex.ToString());
-                Debug.WriteLine(ex.Message);
-                return;
-            }
-
-            Debug.WriteLine("Starting TTSSample request code execution.");
-
-            string requestUri = "https://speech.platform.bing.com/synthesize";
-
-            var cortana = new Synthesize(new Synthesize.InputOptions()
-            {
-                RequestUri = new Uri(requestUri),
-                // Text to be spoken.
-                Text = "Hi, how are you doing?",
-                VoiceType = Gender.Female,
-                // Refer to the documentation for complete list of supported locales.
-                Locale = "en-US",
-                // You can also customize the output voice. Refer to the documentation to view the different
-                // voices that the TTS service can output.
-                VoiceName = "Microsoft Server Speech Text to Speech Voice (en-US, ZiraRUS)",
-                // Service can return audio in different output format. 
-                OutputFormat = AudioOutputFormat.Riff16Khz16BitMonoPcm,
-                AuthorizationToken = "Bearer " + accessToken,
-            });
-
-            cortana.OnAudioAvailable += StoreAudio;
-            cortana.OnError += ErrorHandler;
-            cortana.Speak(CancellationToken.None).Wait();
         }
     }
 }
